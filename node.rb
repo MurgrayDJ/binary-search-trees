@@ -19,11 +19,11 @@ class Node
   end
 end
 
-node1 = Node.new(1)
-node2 = Node.new(2)
+# node1 = Node.new(1)
+# node2 = Node.new(2)
 
-puts node1 <=> node2
+# puts node1 <=> node2
 
-node3 = Node.new(2)
+# node3 = Node.new(2)
 
-puts node2 <=> node3
+# puts node2 <=> node3

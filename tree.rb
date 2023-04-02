@@ -5,8 +5,13 @@
 class Tree
   attr_accessor :root
 
-  def initialize(sorted_array)
-    @root = build_tree(sorted_array)
+  def initialize(data_array)
+    @root = build_tree(data_array)
+  end
+
+  def build_tree(data_array)
+    data_array.sort!
+    data_array.uniq!
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)

@@ -29,6 +29,30 @@ class Tree
     new_node
   end
 
+  def insert(data)
+    new_node = Node.new(data)
+    prev_node = nil
+    curr_node = @root
+    if @root.nil?
+      @root = new_node
+    else
+      until curr_node.nil?
+        if new_node.data > curr_node.data
+          prev_node = curr_node
+          curr_node = curr_node.right
+        else
+          prev_node = curr_node
+          curr_node = curr_node.left
+        end
+      end
+      if new_node.data > prev_node.data
+        prev_node.right = new_node
+      else
+        prev_node.left = new_node
+      end
+    end
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -39,4 +63,6 @@ end
 test_array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 p test_array
 tree1 = Tree.new(test_array)
+tree1.pretty_print
+tree1.insert(2)
 tree1.pretty_print

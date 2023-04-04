@@ -53,6 +53,34 @@ class Tree
     end
   end
 
+  def min_value(root)
+    curr_min = root.data
+    until root.left.nil?
+      curr_min = root.left.data
+      root = root.left
+    end
+    curr_min
+  end
+
+  def delete(root, data)
+    if root.nil?
+      return root
+    elsif data < root.data
+      root.left = delete(root.left, data)
+    elsif data > root.data
+      root.right = delete(root.right, data)
+    else
+      if root.left.nil?
+        return root.right
+      elsif root.right.nil?
+        return root.left
+      end
+      root.data = min_value(root.right)
+      root.right = delete(root.right, root.data)
+    end
+    root
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -65,4 +93,6 @@ p test_array
 tree1 = Tree.new(test_array)
 tree1.pretty_print
 tree1.insert(2)
+tree1.pretty_print
+tree1.delete(tree1.root, 67)
 tree1.pretty_print

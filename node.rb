@@ -3,7 +3,7 @@
 #Pupose: To create node objects for a balanced Binary Search Tree
 
 class Node
-  attr_reader :data 
+  attr_accessor :data 
   attr_accessor :left
   attr_accessor :right
   include Comparable

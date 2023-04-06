@@ -190,6 +190,17 @@ class Tree
     node_array
   end
 
+  def depth(root, node)
+    return -1 if root.nil?
+    dist = -1
+    if root == node ||
+      (dist = depth(root.left, node)) >= 0 ||
+      (dist = depth(root.right, node)) >= 0
+      return dist + 1
+    end
+    return dist 
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -252,3 +263,6 @@ print "Postorder Traversal (Block Print): "
 tree1.postorder(tree1.root, [], &print_node)
 puts
 puts
+
+puts "Tree Height: #{tree1.height(tree1.root)}"
+puts "Distance from Root to Node 2: #{tree1.depth(tree1.root, tree1.find(tree1.root, 2))}"

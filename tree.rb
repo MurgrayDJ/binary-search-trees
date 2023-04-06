@@ -101,6 +101,22 @@ class Tree
     end
   end
 
+  def level_order(root, &passed_block)
+    return if root.nil? 
+    node_queue = [root]
+    level_order_array = []
+    until node_queue.empty?
+      curr_node = node_queue.shift
+      level_order_array.push(curr_node)
+      if block_given?
+        passed_block.call(curr_node)
+      end
+      node_queue.push(curr_node.left) unless curr_node.left.nil? 
+      node_queue.push(curr_node.right) unless curr_node.right.nil? 
+    end
+    level_order_array
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -117,3 +133,6 @@ tree1.pretty_print
 tree1.delete(tree1.root, 67)
 tree1.pretty_print
 p tree1.find(tree1.root, 3).data
+#print_node = Proc.new {|node| puts node.data}
+#tree1.level_order(tree1.root, &print_node)
+p tree1.level_order(tree1.root).map {|node| node = node.data}

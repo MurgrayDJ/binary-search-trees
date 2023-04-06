@@ -215,6 +215,12 @@ class Tree
     return true
   end
 
+  def rebalance(root)
+    inorder_array = inorder(root).map {|node| node.data}
+    print inorder_array
+    Tree.new(inorder_array)
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -285,3 +291,6 @@ puts "Tree 1 is balanced: #{tree1.balanced?(tree1.root)}"
 tree1.insert(1.5)
 tree1.pretty_print
 puts "Tree 1 is balanced (after 1.5 insertion): #{tree1.balanced?(tree1.root)}"
+
+tree1 = tree1.rebalance(tree1.root)
+tree1.pretty_print

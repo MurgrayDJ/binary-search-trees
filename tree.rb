@@ -117,6 +117,46 @@ class Tree
     level_order_array
   end
 
+  ### Start of Recursive Level Order
+  def current_level(root, level, node_array, &passed_block)
+    return if root.nil?
+    if level == 1
+      node_array << root 
+      if block_given?
+        passed_block.call(root)
+      end
+    end
+    if level > 1
+      current_level(root.left, level-1, node_array, &passed_block)
+      current_level(root.right, level-1, node_array, &passed_block)
+    end
+    node_array
+  end
+
+  def height(node)
+    if node.nil?
+      return 0
+    else
+      lheight = height(node.left)
+      rheight = height(node.right)
+      if lheight > rheight
+        return lheight + 1
+      else
+        return rheight + 1
+      end
+    end
+  end
+
+  def recur_level_order(root, &passed_block)
+    height = height(root)
+    node_array = []
+    for i in 1..height+1
+      node_array = current_level(root, i, node_array, &passed_block)
+    end
+    node_array
+  end
+  ### End of Recursive Level Order
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -132,7 +172,17 @@ tree1.insert(2)
 tree1.pretty_print
 tree1.delete(tree1.root, 67)
 tree1.pretty_print
-p tree1.find(tree1.root, 3).data
-#print_node = Proc.new {|node| puts node.data}
-#tree1.level_order(tree1.root, &print_node)
-p tree1.level_order(tree1.root).map {|node| node = node.data}
+p "Data of node with data 3: #{tree1.find(tree1.root, 3).data}"
+print "Iterative Level Order: "
+print_node = Proc.new {|node| print "#{node.data} "}
+tree1.level_order(tree1.root, &print_node)
+puts
+#p tree1.level_order(tree1.root).map {|node| node = node.data}
+print "Recursive Level Order: "
+# lo_array = tree1.recur_level_order(tree1.root)
+# puts
+# lo_array.each {|node| print "#{node.data} "}
+# puts
+
+tree1.recur_level_order(tree1.root, &print_node)
+puts

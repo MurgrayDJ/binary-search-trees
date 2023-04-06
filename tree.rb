@@ -14,9 +14,7 @@ class Tree
   def build_tree(data_arr, first=nil, last=nil)
     if first == nil && last == nil
       data_arr.sort!
-      p data_arr
       data_arr.uniq!
-      p data_arr
       first = 0
       last = data_arr.length-1
     elsif first > last
@@ -217,7 +215,6 @@ class Tree
 
   def rebalance(root)
     inorder_array = inorder(root).map {|node| node.data}
-    print inorder_array
     Tree.new(inorder_array)
   end
 

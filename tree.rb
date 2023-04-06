@@ -168,6 +168,17 @@ class Tree
     node_array
   end
 
+  def preorder(root, node_array=[], &passed_block)
+    return nil if root.nil?
+    node_array << root
+    if block_given?
+      passed_block.call(root)
+    end
+    preorder(root.left, node_array, &passed_block)
+    preorder(root.right, node_array, &passed_block)
+    node_array
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -210,4 +221,13 @@ puts
 
 print "Inorder Traversal (Block Print): "
 tree1.inorder(tree1.root, [], &print_node)
+puts
+puts
+
+print "Preorder Traversal (No Block): "
+tree1.preorder(tree1.root).map(&print_node)
+puts
+
+print "Preorder Traversal (Block Print): "
+tree1.preorder(tree1.root, [], &print_node)
 puts

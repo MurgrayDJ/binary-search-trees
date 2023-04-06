@@ -66,3 +66,5 @@ puts "Tree 1 is balanced (after 1.5 insertion): #{tree1.balanced?(tree1.root)}"
 
 tree1 = tree1.rebalance(tree1.root)
 tree1.pretty_print
+
+puts "Tree 1 is balanced (after rebalancing?): #{tree1.balanced?(tree1.root)}"

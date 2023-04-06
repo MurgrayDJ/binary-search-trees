@@ -157,6 +157,17 @@ class Tree
   end
   ### End of Recursive Level Order
 
+  def inorder(root, node_array=[], &passed_block)
+    return nil if root.nil?
+    inorder(root.left, node_array, &passed_block)
+    node_array << root
+    if block_given?
+      passed_block.call(root)
+    end
+    inorder(root.right, node_array, &passed_block)
+    node_array
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -173,16 +184,30 @@ tree1.pretty_print
 tree1.delete(tree1.root, 67)
 tree1.pretty_print
 p "Data of node with data 3: #{tree1.find(tree1.root, 3).data}"
-print "Iterative Level Order: "
+
 print_node = Proc.new {|node| print "#{node.data} "}
+
+print "Iterative Level Order (No Block): "
+tree1.level_order(tree1.root).map(&print_node)
+puts
+
+print "Iterative Level Order (Block Print): "
 tree1.level_order(tree1.root, &print_node)
 puts
-#p tree1.level_order(tree1.root).map {|node| node = node.data}
-print "Recursive Level Order: "
-# lo_array = tree1.recur_level_order(tree1.root)
-# puts
-# lo_array.each {|node| print "#{node.data} "}
-# puts
 
+print "Recursive Level Order (No Block): "
 tree1.recur_level_order(tree1.root, &print_node)
+puts
+
+print "Recursive Level Order (Block Print): "
+tree1.recur_level_order(tree1.root).map(&print_node)
+puts
+puts
+
+print "Inorder Traversal (No Block): "
+tree1.inorder(tree1.root).map(&print_node)
+puts
+
+print "Inorder Traversal (Block Print): "
+tree1.inorder(tree1.root, [], &print_node)
 puts

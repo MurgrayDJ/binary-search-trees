@@ -201,6 +201,20 @@ class Tree
     return dist 
   end
 
+  def balanced?(root)
+    return if root.nil?
+    lheight = height(root.left) 
+    rheight = height(root.right)
+
+    if (lheight - rheight).abs >= 2
+      return false
+    else
+      balanced?(root.left)
+      balanced?(root.right)
+    end
+    return true
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -266,3 +280,8 @@ puts
 
 puts "Tree Height: #{tree1.height(tree1.root)}"
 puts "Distance from Root to Node 2: #{tree1.depth(tree1.root, tree1.find(tree1.root, 2))}"
+
+puts "Tree 1 is balanced: #{tree1.balanced?(tree1.root)}"
+tree1.insert(1.5)
+tree1.pretty_print
+puts "Tree 1 is balanced (after 1.5 insertion): #{tree1.balanced?(tree1.root)}"
